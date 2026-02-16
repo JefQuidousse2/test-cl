@@ -13,21 +13,18 @@ function formatTime(date: Date): string {
   });
 }
 
-function getEventColor(type: EventLogEntry["type"]): string {
-  switch (type) {
-    case "OrderLinePicked":
-      return "#2e7d32";
-    case "InOrder":
-      return "#1565c0";
-    case "DifferencePosting":
-      return "#b54300";
-    case "TransferToReject":
-      return "#c62828";
-    case "EmptyPalletConfirm":
-      return "#6a1b9a";
-    default:
-      return "#424242";
-  }
+function getEventBadgeStyle(type: EventLogEntry["type"]): React.CSSProperties {
+  const cssVars = {
+    OrderLinePicked: "var(--event-badge-picked)",
+    InOrder: "var(--event-badge-in-order)",
+    DifferencePosting: "var(--event-badge-difference)",
+    TransferToReject: "var(--event-badge-transfer)",
+    EmptyPalletConfirm: "var(--event-badge-empty)",
+  } as Record<string, string>;
+
+  return {
+    backgroundColor: cssVars[type] || "var(--event-badge-default)",
+  };
 }
 
 export function EventLog({ events }: EventLogProps) {
@@ -44,7 +41,7 @@ export function EventLog({ events }: EventLogProps) {
               <div className="event-header">
                 <span
                   className="event-type-badge"
-                  style={{ backgroundColor: getEventColor(event.type) }}
+                  style={getEventBadgeStyle(event.type)}
                 >
                   {event.type}
                 </span>

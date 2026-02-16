@@ -1,21 +1,176 @@
+/* ─── Design Tokens ─── */
+:root {
+  /* Surface */
+  --surface-base: #f0f2f5;
+  --surface-card: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sidebar: #111b27;
+  --surface-sidebar-card: #1a2736;
+  --surface-sidebar-inset: #0d1520;
+
+  /* Accent */
+  --accent-primary: #00796b;
+  --accent-primary-soft: #e0f2f1;
+  --accent-primary-glow: rgba(0, 121, 107, 0.12);
+
+  /* Status */
+  --status-success: #1b6e2d;
+  --status-success-bg: #e8f5e9;
+  --status-warning: #a85400;
+  --status-warning-bg: #fff3e0;
+  --status-danger: #b71c1c;
+  --status-danger-bg: #ffebee;
+  --status-info: #0d47a1;
+  --status-info-bg: #e3f2fd;
+
+  /* Text — light surfaces */
+  --text-primary: #111827;
+  --text-secondary: #384250;
+  --text-muted: #475569;
+  --text-muted-bold: #364151;
+
+  /* Text — dark surfaces */
+  --text-on-dark: #e4e8ed;
+  --text-on-dark-muted: #adc5dd;
+  --text-on-dark-heading: #f0f4f8;
+  
+  /* Accent colors for text (WCAG AA compliant) */
+  --accent-primary-text: #004d42;
+  --accent-primary-dark: #003d33;
+  --status-success-text: #0d4620;
+  --status-warning-text: #684000;
+  --status-danger-text: #7a0f0f;
+  --status-info-text: #051c8a;
+  
+  /* Code/monospace text on dark surfaces */
+  --text-code-on-dark: #c5d9eb;
+  
+  /* Event badge colors (backgrounds for white text) */
+  --event-badge-picked: #1b5e20;
+  --event-badge-in-order: #0d47a1;
+  --event-badge-difference: #8b5a00;
+  --event-badge-transfer: #b71c1c;
+  --event-badge-empty: #6a1b9a;
+  --event-badge-default: #455a64;
+
+  /* Typography */
+  --font-display: "Barlow Condensed", "DM Sans", sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "Consolas", monospace;
+
+  /* Geometry */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --border-subtle: 1px solid rgba(0, 0, 0, 0.08);
+  --border-accent: 3px solid var(--accent-primary);
+
+  /* Shadows */
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-raised: 0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+
+  /* Animation */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 180ms;
+  --duration-normal: 300ms;
+}
+
+/* ─── Reset & Base ─── */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-size: 15px;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-body);
+  background: var(--surface-base);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.55;
 }
 
-h2, h3 {
-  color: #1a1a1a;
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 p {
-  color: #2e2e2e;
-  line-height: 1.5;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0;
+}
+
+strong {
+  font-weight: 600;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+.side-panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ─── Keyframes ─── */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeSlideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes accentStripe {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
 }

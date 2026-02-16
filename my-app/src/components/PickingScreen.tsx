@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Card, TextInput, Dialog } from "@movu/ui";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import type { PickingItem, PickingPosition } from "../types";
 import { StockCountingPanel } from "./StockCountingPanel";
 
@@ -14,6 +15,7 @@ interface PickingScreenProps {
   onInspectPallet: (action: "transfer-reject" | "in-order-reject", reason: string) => void;
   onConfirmEmptyPallet: (isEmpty: boolean) => void;
   onUpdateStockCount: (newQuantity: number) => void;
+  onGoBack: () => void;
 }
 
 export function PickingScreen({
@@ -26,6 +28,7 @@ export function PickingScreen({
   onInspectPallet,
   onConfirmEmptyPallet,
   onUpdateStockCount,
+  onGoBack,
 }: PickingScreenProps) {
   const [quantityInput, setQuantityInput] = useState("");
   const [showDeviationDialog, setShowDeviationDialog] = useState(false);
@@ -55,6 +58,15 @@ export function PickingScreen({
   return (
     <div className="picking-screen">
       <div className="picking-header">
+        <Button
+          variant="plain"
+          size="sm"
+          onClick={onGoBack}
+          className="back-button"
+        >
+          <KeyboardBackspaceIcon style={{ marginRight: "0.35rem" }} />
+          Back to Positions
+        </Button>
         <h2>
           Picking — {position.label}
         </h2>

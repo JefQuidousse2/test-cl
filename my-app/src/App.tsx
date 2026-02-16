@@ -34,6 +34,7 @@ function App() {
             onInspectPallet={picking.inspectPallet}
             onConfirmEmptyPallet={picking.confirmEmptyPallet}
             onUpdateStockCount={picking.updateStockCount}
+            onGoBack={picking.goBack}
           />
         )}
         {picking.step === "completed" && (

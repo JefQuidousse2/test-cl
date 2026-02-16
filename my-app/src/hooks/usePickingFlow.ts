@@ -189,6 +189,14 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
     setRemainingQuantities({});
   }, []);
 
+  const goBack = useCallback(() => {
+    setStep("position-select");
+    setSelectedPosition(null);
+    setItems([]);
+    setCurrentItemIndex(0);
+    setRemainingQuantities({});
+  }, []);
+
   return {
     step,
     selectedPosition,
@@ -202,5 +210,6 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
     confirmEmptyPallet,
     updateStockCount,
     reset,
+    goBack,
   };
 }
