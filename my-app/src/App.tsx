@@ -44,6 +44,8 @@ function App() {
             onConfirmEmptyPallet={picking.confirmEmptyPallet}
             onUpdateStockCount={picking.updateStockCount}
             onGoBack={picking.goBack}
+            pendingRecount={picking.pendingRecount}
+            onConfirmRecount={picking.confirmRecount}
           />
         )}
         {picking.step === "completed" && (

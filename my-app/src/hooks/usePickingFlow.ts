@@ -26,6 +26,7 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
   const [items, setItems] = useState<PickingItem[]>([]);
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [remainingQuantities, setRemainingQuantities] = useState<Record<string, number>>({});
+  const [pendingRecount, setPendingRecount] = useState(false);
 
   const currentItem = items[currentItemIndex] ?? null;
 
@@ -72,6 +73,12 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
         [currentItem.handlingUnitId]: remaining,
       }));
 
+      // If remaining < 10, pause for recount
+      if (remaining < 10) {
+        setPendingRecount(true);
+        return;
+      }
+
       // Create In-Order
       const inOrder: InOrderRequest = {
         id: generateId(),
@@ -99,6 +106,39 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
       }
     },
     [currentItem, currentItemIndex, items.length, remainingQuantities, addEvent]
+  );
+
+  const confirmRecount = useCallback(
+    (recountedQuantity: number) => {
+      if (!currentItem) return;
+
+      const inOrder: InOrderRequest = {
+        id: generateId(),
+        type: "In",
+        orderLines: [
+          {
+            id: generateId(),
+            handlingUnitId: currentItem.handlingUnitId,
+            storageProfile: {
+              stockId: currentItem.stockId,
+              quantity: recountedQuantity,
+              carrierType: "EU",
+              partial: true,
+            },
+          },
+        ],
+      };
+      addEvent("InOrder", { endpoint: "POST /api/v3/orders", body: inOrder });
+
+      setPendingRecount(false);
+
+      if (currentItemIndex < items.length - 1) {
+        setCurrentItemIndex((prev) => prev + 1);
+      } else {
+        setStep("completed");
+      }
+    },
+    [currentItem, currentItemIndex, items.length, addEvent]
   );
 
   const inspectPallet = useCallback(
@@ -187,6 +227,7 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
     setItems([]);
     setCurrentItemIndex(0);
     setRemainingQuantities({});
+    setPendingRecount(false);
   }, []);
 
   const goBack = useCallback(() => {
@@ -195,6 +236,7 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
     setItems([]);
     setCurrentItemIndex(0);
     setRemainingQuantities({});
+    setPendingRecount(false);
   }, []);
 
   return {
@@ -205,7 +247,9 @@ export function usePickingFlow({ addEvent }: UsePickingFlowProps) {
     currentItemIndex,
     remainingQuantities,
     selectPosition,
+    pendingRecount,
     confirmPick,
+    confirmRecount,
     inspectPallet,
     confirmEmptyPallet,
     updateStockCount,

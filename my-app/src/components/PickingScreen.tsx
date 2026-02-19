@@ -16,6 +16,8 @@ interface PickingScreenProps {
   onConfirmEmptyPallet: (isEmpty: boolean) => void;
   onUpdateStockCount: (newQuantity: number) => void;
   onGoBack: () => void;
+  pendingRecount: boolean;
+  onConfirmRecount: (qty: number) => void;
 }
 
 export function PickingScreen({
@@ -29,10 +31,13 @@ export function PickingScreen({
   onConfirmEmptyPallet,
   onUpdateStockCount,
   onGoBack,
+  pendingRecount,
+  onConfirmRecount,
 }: PickingScreenProps) {
   const [quantityInput, setQuantityInput] = useState("");
   const [showDeviationDialog, setShowDeviationDialog] = useState(false);
   const [pendingQuantity, setPendingQuantity] = useState(0);
+  const [recountInput, setRecountInput] = useState("");
 
   const isBox = item.customProperties.box === true;
 
@@ -163,6 +168,30 @@ export function PickingScreen({
           requested quantity (<strong>{item.allocatedQuantity}</strong>).
           Continue?
         </p>
+      </Dialog>
+
+      <Dialog
+        open={pendingRecount}
+        title="Low Stock — Recount Required"
+        onConfirm={() => {
+          const qty = Number(recountInput);
+          if (isNaN(qty) || qty < 0) return;
+          onConfirmRecount(qty);
+          setRecountInput("");
+        }}
+        confirmLabel="Confirm Recount"
+      >
+        <p>
+          Remaining stock is below 10. Please recount the stock on the pallet
+          and enter the actual quantity.
+        </p>
+        <TextInput
+          label="Recounted Quantity"
+          placeholder="Enter recounted quantity"
+          value={recountInput}
+          onChange={(val) => setRecountInput(val)}
+          type="number"
+        />
       </Dialog>
     </div>
   );
