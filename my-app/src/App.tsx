@@ -1,14 +1,17 @@
 import { usePickingFlow } from "./hooks/usePickingFlow";
 import { useEventLog } from "./hooks/useEventLog";
+import { useGateToggle } from "./hooks/useGateToggle";
 import { PositionSelector } from "./components/PositionSelector";
 import { PickingScreen } from "./components/PickingScreen";
 import { CompletedScreen } from "./components/CompletedScreen";
 import { EventLog } from "./components/EventLog";
+import { PICKING_POSITIONS } from "./data/mockData";
 import "./App.css";
 
 function App() {
   const { events, addEvent, clearEvents } = useEventLog();
   const picking = usePickingFlow({ addEvent });
+  const gateToggle = useGateToggle({ positions: PICKING_POSITIONS });
 
   const handleReset = () => {
     picking.reset();
@@ -19,7 +22,13 @@ function App() {
     <div className="app-layout">
       <div className="main-panel">
         {picking.step === "position-select" && (
-          <PositionSelector onSelect={picking.selectPosition} />
+          <PositionSelector
+            onSelect={picking.selectPosition}
+            isGateEnabled={gateToggle.isGateEnabled}
+            isTerminalFullyEnabled={gateToggle.isTerminalFullyEnabled}
+            toggleGate={gateToggle.toggleGate}
+            toggleTerminal={gateToggle.toggleTerminal}
+          />
         )}
         {picking.step === "picking" && picking.currentItem && picking.selectedPosition && (
           <PickingScreen

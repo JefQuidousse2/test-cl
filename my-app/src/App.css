@@ -122,6 +122,90 @@
   letter-spacing: 0.06em;
 }
 
+/* ─── Terminal Sections ─── */
+
+.terminal-section {
+  margin-bottom: 2rem;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.terminal-title {
+  margin: 0;
+  font-size: 1.1rem;
+  position: relative;
+  padding-left: 0.85rem;
+}
+
+.terminal-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  bottom: 0.1em;
+  width: 3px;
+  background: var(--accent-primary);
+  border-radius: 2px;
+}
+
+/* ─── Gate Header Row (name + toggle) ─── */
+
+.gate-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.gate-header-row h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+/* ─── Card Wrapper & Disabled State ─── */
+
+.position-card-wrapper {
+  transition: opacity var(--duration-normal) var(--ease-out),
+              filter var(--duration-normal) var(--ease-out);
+}
+
+.position-card-disabled {
+  opacity: 0.45;
+  filter: grayscale(60%);
+}
+
+.position-card-disabled:hover {
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* ─── Disabled Gate Message ─── */
+
+.gate-disabled-message {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--status-warning-bg, rgba(255, 180, 0, 0.08));
+  border-left: 3px solid var(--status-warning-text, #ffb400);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 0.4rem 0.65rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--status-warning-text, #ffb400);
+  width: 100%;
+}
+
+.gate-disabled-message span {
+  flex: 1;
+}
+
 /* ═══════════════════════════════════════════════════
    PICKING SCREEN — Main workflow area
    ═══════════════════════════════════════════════════ */
@@ -328,11 +412,6 @@
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
-}
-
-.inspect-actions {
-  display: flex;
-  gap: 0.5rem;
 }
 
 .low-volume-content {

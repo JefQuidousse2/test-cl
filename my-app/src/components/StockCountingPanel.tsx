@@ -94,19 +94,12 @@ export function StockCountingPanel({
           <p>
             Inspecting <strong>{item.handlingUnitId}</strong>
           </p>
-          <div className="inspect-actions">
+          <div>
             <Button
               variant={inspectAction === "transfer-reject" ? "solid" : "outlined"}
               color="danger"
               label="Transfer to Reject"
               onClick={() => setInspectAction("transfer-reject")}
-              size="sm"
-            />
-            <Button
-              variant={inspectAction === "in-order-reject" ? "solid" : "outlined"}
-              color="warning"
-              label="In-order with Reject"
-              onClick={() => setInspectAction("in-order-reject")}
               size="sm"
             />
           </div>

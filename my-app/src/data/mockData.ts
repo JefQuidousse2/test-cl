@@ -14,7 +14,7 @@ export const MOCK_PICKING_ITEMS: Record<string, PickingItem[]> = {
       terminal: "Terminal1",
       gate: "Gate2",
       gateCode: "T1G2",
-      allocatedQuantity: 50,
+      allocatedQuantity: 111,
       currentHuQuantity: 120,
       orderLines: 3,
       pallets: 2,
